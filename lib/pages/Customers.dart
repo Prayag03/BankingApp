@@ -45,38 +45,43 @@ class _CustomersState extends State<Customers> {
     allrows.forEach((row) {
       myitems.add(row.toString());
       children.add(
-        Card(
-          elevation: 5.0,
-          margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 8.0),
-          child: Container(
-            padding: EdgeInsets.all(5.0),
-            child: ListTile(
-              title: Text(
-                row['name'],
-                style: TextStyle(
-                  fontFamily: "Raleway",
-                  fontSize: 20.0,
+        InkWell(
+          onTap: () {
+            print(".....................");
+            print("Pressed");
+          },
+          child: Card(
+            elevation: 5.0,
+            margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 8.0),
+            child: Container(
+              padding: EdgeInsets.all(5.0),
+              child: ListTile(
+                title: Text(
+                  row['name'],
+                  style: TextStyle(
+                    fontFamily: "Raleway",
+                    fontSize: 20.0,
+                  ),
                 ),
-              ),
-              subtitle: Text(
-                row['email'],
-                style: TextStyle(
-                  fontFamily: "Raleway",
-                  fontSize: 15.0,
+                subtitle: Text(
+                  row['email'],
+                  style: TextStyle(
+                    fontFamily: "Raleway",
+                    fontSize: 15.0,
+                  ),
                 ),
-              ),
-              /*trailing: Text(
-                row['amount'],
-                style: TextStyle(
-                  fontFamily: "Raleway",
-                  fontSize: 15.0,
+                trailing: Text(
+                  '${row['amount']}',
+                  style: TextStyle(
+                    fontFamily: "Raleway",
+                    fontSize: 15.0,
+                  ),
                 ),
-              ),*/
-              
                 onLongPress: () {
-                dbhelper.deletedata(row['id']);
-                setState(() {});
-              },
+                  dbhelper.deletedata(row['id']);
+                  setState(() {});
+                },
+              ),
             ),
           ),
         ),
@@ -188,44 +193,6 @@ class _CustomersState extends State<Customers> {
         });
   }
 
-  /*Widget mycard(String name, String email, double amount) {
-    return Card(
-      elevation: 5.0,
-      margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 8.0),
-      child: Container(
-        padding: EdgeInsets.all(5.0),
-        child: ListTile(
-          title: Text(
-            '$name',
-            style: TextStyle(
-              fontFamily: "Raleway",
-              fontSize: 20.0,
-            ),
-          ),
-          subtitle: Text(
-            "$email",
-            style: TextStyle(
-              fontFamily: "Raleway",
-              fontSize: 15.0,
-            ),
-          ),
-          trailing: Text(
-            "INR $amount",
-            style: TextStyle(
-              fontFamily: "Raleway",
-              fontSize: 15.0,
-            ),
-          ),
-          //isThreeLine: true,
-          //dense: true,
-          onLongPress: () {
-            print("Delete thavu joie");
-          },
-        ),
-      ),
-    );
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -303,42 +270,3 @@ class _CustomersState extends State<Customers> {
     );
   }
 }
-
-/*
-Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showalertdialog();
-        },
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-        backgroundColor: Colors.purple,
-      ),
-      backgroundColor: Colors.grey[700],
-      appBar: AppBar(
-        title: Text(
-          "Customers",
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-        elevation: 10,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            mycard("Shiladitya Gohil", "abv@gmail.com", 5000),
-            mycard("Eha Gohil", "123@gmail.com", 5000),
-            mycard("Ha moj ha Gohil", "dfc@gmail.com", 5000),
-            mycard("Aditya Gohil", "ggs@gmail.com", 5000),
-            mycard("Haalo Gohil", "fhv@gmail.com", 5000),
-            mycard("Aditya Gohil", "ggs@gmail.com", 5000),
-            mycard("Aditya Gohil", "ggs@gmail.com", 5000),
-            mycard("Aditya Gohil", "ggs@gmail.com", 5000),
-            mycard("Aditya Gohil", "ggs@gmail.com", 5000),
-            mycard("Aditya Gohil", "ggs@gmail.com", 5000),
-          ],
-        ),
-      ),
-    );*/
