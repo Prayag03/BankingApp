@@ -24,7 +24,7 @@ class _CustomersState extends State<Customers> {
     Map<String, dynamic> row = {
       Databasehelper.columnName: name,
       Databasehelper.columnEmail: email,
-      Databasehelper.columnAmount: amount
+      Databasehelper.columnAmount: amount,
     };
     final id = await dbhelper.insert(row);
     print(id);
@@ -65,16 +65,15 @@ class _CustomersState extends State<Customers> {
                   fontSize: 15.0,
                 ),
               ),
-              trailing: Text(
+              /*trailing: Text(
                 row['amount'],
                 style: TextStyle(
                   fontFamily: "Raleway",
                   fontSize: 15.0,
                 ),
-              ),
-              //isThreeLine: true,
-              //dense: true,
-              onLongPress: () {
+              ),*/
+              
+                onLongPress: () {
                 dbhelper.deletedata(row['id']);
                 setState(() {});
               },
@@ -189,7 +188,7 @@ class _CustomersState extends State<Customers> {
         });
   }
 
-  Widget mycard(String name, String email, double amount) {
+  /*Widget mycard(String name, String email, double amount) {
     return Card(
       elevation: 5.0,
       margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 8.0),
@@ -225,7 +224,7 @@ class _CustomersState extends State<Customers> {
         ),
       ),
     );
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
