@@ -1,5 +1,6 @@
 import 'package:bankingapp/pages/dbhelper.dart';
 import 'package:flutter/material.dart';
+import 'package:expansion_card/expansion_card.dart';
 
 class Customers extends StatefulWidget {
   @override
@@ -12,11 +13,13 @@ class _CustomersState extends State<Customers> {
   TextEditingController nc = TextEditingController();
   TextEditingController ec = TextEditingController();
   TextEditingController ac = TextEditingController();
+  TextEditingController mn = TextEditingController();
   bool validated = true;
   String errtext = "";
   String name = "";
   String email = "";
   double amount;
+  double mobileNo;
   var myitems = List();
   List<Widget> children = new List<Widget>();
 
@@ -25,6 +28,7 @@ class _CustomersState extends State<Customers> {
       Databasehelper.columnName: name,
       Databasehelper.columnEmail: email,
       Databasehelper.columnAmount: amount,
+      Databasehelper.columnMobile: mobileNo,
     };
     final id = await dbhelper.insert(row);
     print(id);
@@ -32,6 +36,7 @@ class _CustomersState extends State<Customers> {
     name = "";
     email = "";
     amount = 0;
+    mobileNo = 0;
     setState(() {
       validated = true;
       errtext = "";
@@ -45,22 +50,22 @@ class _CustomersState extends State<Customers> {
     allrows.forEach((row) {
       myitems.add(row.toString());
       children.add(
-        InkWell(
-          onTap: () {
-            print(".....................");
-            print("Pressed");
-          },
-          child: Card(
-            elevation: 5.0,
-            margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 8.0),
-            child: Container(
-              padding: EdgeInsets.all(5.0),
-              child: ListTile(
+        /*ListView.builder(
+         itemCount: myitems.length,
+              itemBuilder: (context, i) {
+                return Card();
+              },*/
+        ExpansionCard(
+          borderRadius: 20.0,
+          margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 8.0),
+          title: Container(
+            child: ListTile(
                 title: Text(
                   row['name'],
                   style: TextStyle(
                     fontFamily: "Raleway",
                     fontSize: 20.0,
+                    color: Colors.white,
                   ),
                 ),
                 subtitle: Text(
@@ -68,22 +73,43 @@ class _CustomersState extends State<Customers> {
                   style: TextStyle(
                     fontFamily: "Raleway",
                     fontSize: 15.0,
-                  ),
-                ),
-                trailing: Text(
-                  '${row['amount']}',
-                  style: TextStyle(
-                    fontFamily: "Raleway",
-                    fontSize: 15.0,
+                    color: Colors.white,
                   ),
                 ),
                 onLongPress: () {
                   dbhelper.deletedata(row['id']);
                   setState(() {});
-                },
-              ),
-            ),
+                }),
           ),
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'INR: ${row['amount']}',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontFamily: "Raleway",
+                      fontSize: 15.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    '${row['mobileNo']}',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontFamily: "Raleway",
+                      fontSize: 15.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       );
     });
@@ -94,6 +120,7 @@ class _CustomersState extends State<Customers> {
     nc.text = "";
     ec.text = "";
     ac.text = "";
+    mn.text = "";
     showDialog(
         context: context,
         builder: (context) {
@@ -147,6 +174,17 @@ class _CustomersState extends State<Customers> {
                         border: OutlineInputBorder(),
                         hintText: 'Enter the amount'),
                   ),
+                  TextField(
+                    controller: mn,
+                    //autofocus: true,
+                    onChanged: (_val) {
+                      mobileNo = double.parse(_val);
+                    },
+                    decoration: InputDecoration(
+                        errorText: validated ? null : errtext,
+                        border: OutlineInputBorder(),
+                        hintText: 'Enter the Mobile Number'),
+                  ),
                   Padding(
                     padding:
                         EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
@@ -158,14 +196,16 @@ class _CustomersState extends State<Customers> {
                           onPressed: () {
                             if (nc.text.isEmpty ||
                                 ec.text.isEmpty ||
-                                ac.text.isEmpty) {
+                                ac.text.isEmpty ||
+                                mn.text.isEmpty) {
                               setState(() {
                                 errtext = "Can't be empty";
                                 validated = false;
                               });
                             } else if (nc.text.length > 512 ||
                                 ec.text.length > 512 ||
-                                ac.text.length > 10) {
+                                ac.text.length > 10 ||
+                                mn.text.length > 10) {
                               setState(() {
                                 errtext = "Too Many Characters";
                                 validated = false;
@@ -248,7 +288,7 @@ class _CustomersState extends State<Customers> {
                 ),
                 backgroundColor: Colors.purple,
               ),
-              backgroundColor: Colors.grey[700],
+              backgroundColor: Colors.grey[600],
               appBar: AppBar(
                 title: Text(
                   "Customers",

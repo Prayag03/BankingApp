@@ -20,6 +20,7 @@ class Databasehelper {
   static final columnName = "name";
   static final columnEmail = 'email';
   static final columnAmount = 'amount';
+  static final columnMobile = 'mobileNo';
 
   // a database
   static Database _database;
@@ -53,7 +54,8 @@ class Databasehelper {
         $columnID INTEGER PRIMARY KEY,
         $columnName TEXT NOT NULL,
         $columnEmail VARCHAR NOT NULL,
-        $columnAmount INTEGER NOT NULL
+        $columnAmount INTEGER NOT NULL,
+        $columnMobile INTEGER NOT NULL
       );
       ''');
   }
