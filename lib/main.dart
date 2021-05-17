@@ -1,4 +1,6 @@
 import 'package:bankingapp/pages/Customers.dart';
+import 'package:bankingapp/pages/Transactions.dart';
+import 'package:bankingapp/pages/History.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -67,19 +69,23 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
                           onPressed: () {
-                              Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      Customers()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Customers()));
                           },
                         ),
                         RaisedButton(
                           color: Colors.yellow,
                           splashColor: Colors.grey,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => History()));
+                          },
                           child: Text(
-                            "Make Transaction",
+                            "Transaction History",
                             style: TextStyle(
                               fontSize: 15.0,
                               color: Colors.black,

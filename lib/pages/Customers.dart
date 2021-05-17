@@ -1,6 +1,7 @@
 import 'package:bankingapp/pages/dbhelper.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_card/expansion_card.dart';
+import 'package:bankingapp/pages/Transactions.dart';
 
 class Customers extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class _CustomersState extends State<Customers> {
   String errtext = "";
   String name = "";
   String email = "";
-  double amount;
+  double balance;
   double mobileNo;
   var myitems = List();
   List<Widget> children = new List<Widget>();
@@ -27,20 +28,39 @@ class _CustomersState extends State<Customers> {
     Map<String, dynamic> row = {
       Databasehelper.columnName: name,
       Databasehelper.columnEmail: email,
-      Databasehelper.columnAmount: amount,
       Databasehelper.columnMobile: mobileNo,
+      Databasehelper.columnBalance: balance,
     };
     final id = await dbhelper.insert(row);
     print(id);
     Navigator.pop(context);
     name = "";
     email = "";
-    amount = 0;
     mobileNo = 0;
+
     setState(() {
       validated = true;
       errtext = "";
     });
+  }
+
+  final db = Databasehelper.instance;
+  var allrows;
+  List<Map<String, dynamic>> items = List<Map<String, dynamic>>();
+  void queryall() async {
+    allrows = await db.queryall();
+    allrows.forEach((element) {
+      items.add(element);
+    });
+
+    /*print('===================');
+    print(items);
+    print('===================');*/
+  }
+
+  void initState() {
+    super.initState();
+    queryall();
   }
 
   Future<bool> query() async {
@@ -50,11 +70,6 @@ class _CustomersState extends State<Customers> {
     allrows.forEach((row) {
       myitems.add(row.toString());
       children.add(
-        /*ListView.builder(
-         itemCount: myitems.length,
-              itemBuilder: (context, i) {
-                return Card();
-              },*/
         ExpansionCard(
           borderRadius: 20.0,
           margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 8.0),
@@ -89,8 +104,8 @@ class _CustomersState extends State<Customers> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    'INR: ${row['amount']}',
-                    textAlign: TextAlign.left,
+                    'Balance: ${row['balance']}',
+                    //textAlign: TextAlign.start,
                     style: TextStyle(
                       fontFamily: "Raleway",
                       fontSize: 15.0,
@@ -98,12 +113,31 @@ class _CustomersState extends State<Customers> {
                     ),
                   ),
                   Text(
-                    '${row['mobileNo']}',
-                    textAlign: TextAlign.left,
+                    'Mobile No: ${row['mobileNo']}',
+                    //textAlign: TextAlign.start,
                     style: TextStyle(
                       fontFamily: "Raleway",
                       fontSize: 15.0,
                       color: Colors.white,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 35.0),
+                    child: RaisedButton(
+                      onPressed: () {
+                        print(myitems);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Transactions(
+                                    balance: row['balance'],
+                                    email: row['email'])));
+                      },
+                      color: Colors.blue,
+                      child: Text(
+                        "PAY",
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      ),
                     ),
                   ),
                 ],
@@ -167,7 +201,7 @@ class _CustomersState extends State<Customers> {
                     controller: ac,
                     //autofocus: true,
                     onChanged: (_val) {
-                      amount = double.parse(_val);
+                      balance = double.parse(_val);
                     },
                     decoration: InputDecoration(
                         errorText: validated ? null : errtext,
@@ -194,25 +228,7 @@ class _CustomersState extends State<Customers> {
                         RaisedButton(
                           color: Colors.purple,
                           onPressed: () {
-                            if (nc.text.isEmpty ||
-                                ec.text.isEmpty ||
-                                ac.text.isEmpty ||
-                                mn.text.isEmpty) {
-                              setState(() {
-                                errtext = "Can't be empty";
-                                validated = false;
-                              });
-                            } else if (nc.text.length > 512 ||
-                                ec.text.length > 512 ||
-                                ac.text.length > 10 ||
-                                mn.text.length > 10) {
-                              setState(() {
-                                errtext = "Too Many Characters";
-                                validated = false;
-                              });
-                            } else {
-                              adddetails();
-                            }
+                            adddetails();
                           },
                           child: Text(
                             "Add Data",

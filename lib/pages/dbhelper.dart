@@ -19,8 +19,8 @@ class Databasehelper {
   static final columnID = 'id';
   static final columnName = "name";
   static final columnEmail = 'email';
-  static final columnAmount = 'amount';
   static final columnMobile = 'mobileNo';
+  static final columnBalance = 'balance';
 
   // a database
   static Database _database;
@@ -54,8 +54,8 @@ class Databasehelper {
         $columnID INTEGER PRIMARY KEY,
         $columnName TEXT NOT NULL,
         $columnEmail VARCHAR NOT NULL,
-        $columnAmount INTEGER NOT NULL,
-        $columnMobile INTEGER NOT NULL
+        $columnMobile INTEGER NOT NULL,
+        $columnBalance DOUBLE NOT NULL
       );
       ''');
   }
@@ -77,5 +77,34 @@ class Databasehelper {
     Database db = await instance.databse;
     var res = await db.delete(table, where: "id = ?", whereArgs: [id]);
     return res;
+  }
+
+  Future<int> updatedata2(String email, double balance) async {
+    Database db = await instance.databse;
+     int updateCount = await db.update(
+        Databasehelper.table,
+        { Databasehelper.columnBalance  : balance, },
+        where: '${Databasehelper.columnEmail} = ?',
+        whereArgs: [email]);
+  }
+  Future<int> updatedata(String email, double balance) async {
+    Database db = await instance.databse;
+     int updateCount = await db.update(
+        Databasehelper.table,
+        { Databasehelper.columnBalance  : balance, },
+        where: '${Databasehelper.columnEmail} = ?',
+        whereArgs: [email]);
+    
+  }
+
+
+  Future<int> showdata(String email, double balance) async {
+    Database db = await instance.databse;
+     int updateCount = await db.update(
+        Databasehelper.table,
+        { Databasehelper.columnBalance  : balance, },
+        where: '${Databasehelper.columnEmail} = ?',
+        whereArgs: [email]);
+    
   }
 }
