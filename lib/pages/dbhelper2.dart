@@ -9,23 +9,17 @@ import 'package:sqflite/sqflite.dart';
 // the database helper class
 class Databasehelper {
   // database name
-  static final _databasename = "customers.db";
+  static final _databasename = "history.db";
   static final _databaseversion = 1;
 
   // the table name
-  static final table = "my_table";
-  static final table2 = "my_table2";
+  static final table = "my_table2";
 
   // column names
   static final columnID = 'id';
-  static final columnName = "name";
-  static final columnEmail = 'email';
-  static final columnMobile = 'mobileNo';
-  static final columnBalance = 'balance';
   static final columnSEmail = 'semail';
   static final columnREmail = 'remail';
   static final columnAmount = 'amount';
-
 
   // a database
   static Database _database;
@@ -57,36 +51,17 @@ class Databasehelper {
     await db.execute('''
       CREATE TABLE $table (
         $columnID INTEGER PRIMARY KEY,
-        $columnName TEXT NOT NULL,
-        $columnEmail VARCHAR NOT NULL,
-        $columnMobile INTEGER NOT NULL,
-        $columnBalance DOUBLE NOT NULL
-      );
-
-    
-      ''');
-      await db.execute('''
-
-    CREATE TABLE $table2 (
-        $columnSEmail VARCHAR PRIMARY KEY,
+        $columnSEmail VARCHAR NOT NULL,
         $columnREmail VARCHAR NOT NULL,
         $columnAmount DOUBLE NOT NULL
       );
-
       ''');
   }
-  
-  
 
   // functions to insert data
   Future<int> insert(Map<String, dynamic> row) async {
     Database db = await instance.databse;
     return await db.insert(table, row);
-  }
-
-  Future<int> insert2(Map<String, dynamic> row) async {
-    Database db = await instance.databse;
-    return await db.insert(table2, row);
   }
 
   // function to query all the rows
@@ -95,11 +70,6 @@ class Databasehelper {
     return await db.query(table);
   }
 
-
-  Future<List<Map<String, dynamic>>> queryall2() async {
-    Database db = await instance.databse;
-    return await db.query(table2);
-  }
   // function to delete some data
   Future<int> deletedata(int id) async {
     Database db = await instance.databse;
@@ -107,24 +77,17 @@ class Databasehelper {
     return res;
   }
 
-  Future<int> updatedata2(String email, double balance) async {
-    Database db = await instance.databse;
-     int updateCount = await db.update(
-        Databasehelper.table,
-        { Databasehelper.columnBalance  : balance, },
-        where: '${Databasehelper.columnEmail} = ?',
-        whereArgs: [email]);
-  }
+
   Future<int> updatedata(String email, double balance) async {
     Database db = await instance.databse;
-     int updateCount = await db.update(
+     /*int updateCount = await db.update(
         Databasehelper.table,
         { Databasehelper.columnBalance  : balance, },
         where: '${Databasehelper.columnEmail} = ?',
         whereArgs: [email]);
-    
+    */
   }
-
-
-  
 }
+
+
+

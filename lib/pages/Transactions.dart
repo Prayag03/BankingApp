@@ -48,12 +48,25 @@ class _TransactionsState extends State<Transactions> {
     print('===================');*/
   }
 
+  void adddetails() async {
+    Map<String, dynamic> row = {
+      Databasehelper.columnSEmail: email,
+      Databasehelper.columnREmail: re.text,
+      Databasehelper.columnAmount: double.parse(am.text),
+    };
+    final id = await dbhelper.insert2(row);
+    print(id);
+    Navigator.pop(context);
+    semail = "";
+    remail = "";
+    amount = 0;
+  }
+
   void initState() {
     super.initState();
     se.text = email;
   }
 
-  
   void updatedata(String email, double balance) async {
     var row = await dbhelper.updatedata(email, balance);
     print(email);
@@ -134,6 +147,7 @@ class _TransactionsState extends State<Transactions> {
                       print(balance);
                       print('------');
                       updatedata2(re.text, balance + double.parse(am.text));
+                      adddetails();
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Homepage()));
                     },
