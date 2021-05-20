@@ -147,9 +147,10 @@ class _TransactionsState extends State<Transactions> {
                       print(balance);
                       print('------');
                       updatedata2(re.text, balance + double.parse(am.text));
-                      adddetails();
+                      
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Homepage()));
+                          adddetails();
                     },
                     color: Colors.blue,
                     child: Text(
