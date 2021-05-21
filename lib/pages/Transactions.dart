@@ -42,10 +42,6 @@ class _TransactionsState extends State<Transactions> {
     allrows.forEach((element) {
       items.add(element);
     });
-
-    /*print('===================');
-    print(items);
-    print('===================');*/
   }
 
   void adddetails() async {
@@ -141,16 +137,11 @@ class _TransactionsState extends State<Transactions> {
                   child: RaisedButton(
                     onPressed: () {
                       updatedata(email, balance - double.parse(am.text));
-                      print('------');
-                      print(email);
-                      print('------');
-                      print(balance);
-                      print('------');
                       updatedata2(re.text, balance + double.parse(am.text));
-                      
+
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Homepage()));
-                          adddetails();
+                      adddetails();
                     },
                     color: Colors.blue,
                     child: Text(
